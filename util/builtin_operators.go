@@ -224,12 +224,14 @@ func GenerateGFunction(rm rbac.RoleManager) govaluate.ExpressionFunction {
 		if rm == nil {
 			return name1 == name2, nil
 		} else if len(args) == 2 {
-			res, level, _ := rm.HasLink(name1, name2)
-			return GroupResult{Result: res, Level: level}, nil
+			_, level, _ := rm.HasLink(name1, name2)
+			// return GroupResult{Result: res, Level: level}, nil
+			return level, nil
 		} else {
 			domain := args[2].(string)
-			res, level, _ := rm.HasLink(name1, name2, domain)
-			return GroupResult{Result: res, Level: level}, nil
+			_, level, _ := rm.HasLink(name1, name2, domain)
+			//return GroupResult{Result: res, Level: level}, nil
+			return level, nil
 		}
 	}
 }

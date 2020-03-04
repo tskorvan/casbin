@@ -136,7 +136,7 @@ func (rm *RoleManager) HasLink(name1 string, name2 string, domain ...string) (bo
 		name1 = domain[0] + "::" + name1
 		name2 = domain[0] + "::" + name2
 	} else if len(domain) > 1 {
-		return false, rm.maxHierarchyLevel, errors.ERR_DOMAIN_PARAMETER
+		return false, -1, errors.ERR_DOMAIN_PARAMETER
 	}
 
 	if name1 == name2 {
@@ -144,7 +144,7 @@ func (rm *RoleManager) HasLink(name1 string, name2 string, domain ...string) (bo
 	}
 
 	if !rm.hasRole(name1) || !rm.hasRole(name2) {
-		return false, rm.maxHierarchyLevel, nil
+		return false, -1, nil
 	}
 
 	role1 := rm.createRole(name1)
@@ -260,7 +260,7 @@ func (r *Role) hasRole(name string, hierarchyLevel int) (bool, int) {
 	}
 
 	if hierarchyLevel <= 0 {
-		return false, hierarchyLevel
+		return false, -1
 	}
 
 	for _, role := range r.roles {
@@ -268,7 +268,7 @@ func (r *Role) hasRole(name string, hierarchyLevel int) (bool, int) {
 			return true, level
 		}
 	}
-	return false, hierarchyLevel
+	return false, -1
 }
 
 func (r *Role) hasDirectRole(name string) bool {
